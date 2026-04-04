@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Professional Portfolio
 
-## Getting Started
+This repository contains my professional portfolio site. It is built as a fast, motion-forward single page with dedicated sections for my story, skills, selected work, and a contact flow.
 
-First, run the development server:
+## About This Project
+This portfolio is designed to present my work with clarity and personality while staying focused on performance and craftsmanship. The structure is intentionally simple: a single-page experience with strong visual pacing, clear sectioning, and a direct path to contact. The UI emphasizes legibility, contrast, and motion to create a modern, confident first impression.
+
+The codebase is organized by section components so it is easy to update copy, swap projects, and refine visuals without touching the overall layout. Each section is meant to be edited independently, which keeps iteration fast as my experience and work evolve.
+
+## Highlights
+- Purpose-built sections: `Hero`, `About`, `Skills`, `Projects`, `Contact`, and `Footer`
+- Motion and smooth scrolling powered by GSAP, Framer Motion, and Lenis
+- 3D-ready stack with React Three Fiber and Drei
+- Clean, modular UI components in `components/ui`
+
+## Tech Stack
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- GSAP, Framer Motion, Lenis
+- Three.js, React Three Fiber, Drei
+
+## Local Development
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Run the dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
+- `npm run dev` Start the development server
+- `npm run build` Create a production build
+- `npm run start` Run the production server
+- `npm run lint` Lint the codebase
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
+- `app/page.tsx` Main page composition
+- `components/ui` Section-level UI blocks
+- `app/globals.css` Global styles
+- `public` Static assets
 
-## Learn More
+## Personalization Guide
+Update copy and content in these components:
+- `components/ui/Hero.tsx`
+- `components/ui/About.tsx`
+- `components/ui/Skills.tsx`
+- `components/ui/Projects.tsx`
+- `components/ui/Contact.tsx`
 
-To learn more about Next.js, take a look at the following resources:
+Replace or add images in `public` and update references in the components above.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
+Build and deploy with any platform that supports Next.js. A typical flow is:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+npm run start
+```
 
-## Deploy on Vercel
+If you are deploying to Vercel or Netlify, use their Next.js presets.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+All content and design in this portfolio are my own unless otherwise noted. Please do not reuse without permission.
