@@ -223,13 +223,7 @@ export default function Skills() {
             </span>
           </h2>
           <p className="mt-4 text-on-surface-variant text-sm max-w-2xl leading-relaxed">
-            Principles and system thinking first—architecture, methodologies,
-            and platform craft. The graph reflects a{" "}
-            <span className="text-on-surface-variant/90">
-              JavaScript-first web stack
-            </span>{" "}
-            (Node.js, Express, Next.js), Expo for React Native, Flutter, and
-            delivery infra—not the whole story, but the tool spine.
+            A curated map of the technologies and disciplines I work with—spanning full-stack web, mobile, infrastructure, and the systems thinking that ties them together.
           </p>
         </motion.div>
 

@@ -61,6 +61,20 @@ const projects = [
     metrics: { latency: "~15ms", uptime: "99.5%", scale: "Venue-wide" },
     projectLink: "https://duon.ph/",
   },
+  {
+    id: "ARCH_06",
+    codename:"Sentri",
+    title: "Offline First Disaster Response App",
+    category: "MOBILE / SOCIAL_IMPACT",
+    status: "PROTOTYPE",
+    isReal: true,
+    description:
+      "An offline-first mobile app for disaster response coordination. Enables communication, resource tracking, and volunteer management in connectivity-challenged environments.",
+    stack: ["React Native", "SQLite", "Redux Offline", "Node.js"],
+    color: "#ff7e5f",
+    metrics: { latency: "~25ms", uptime: "99.9%", scale: "Community-wide" },
+    // projectLink: "https://sentri-disaster-response.vercel.app/",
+  }
   // {
   //   id: "ARCH_05",
   //   codename: "DentalCare",
