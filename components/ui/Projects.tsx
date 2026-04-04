@@ -61,20 +61,20 @@ const projects = [
     metrics: { latency: "~15ms", uptime: "99.5%", scale: "Venue-wide" },
     projectLink: "https://duon.ph/",
   },
-  {
-    id: "ARCH_05",
-    codename: "DentalCare",
-    title: "Dental Clinic Management",
-    category: "DEV OPS/ SOFTWARE ENGINEER",
-    status: "PROTOTYPE",
-    isReal: true,
-    description:
-      "A dental clinic management system with patient records, appointment scheduling, billing, and inventory management. Built with a modular architecture for easy extension.",
-    stack: ["Next.js", "Node.js", "MongoDB", "Redis"],
-    color: "#ff7e5f",
-    metrics: { latency: "~10ms", uptime: "99.9%", scale: "Single-clinic" },
-    projectLink: "https://dental-management-system-ruby.vercel.app/",
-  }
+  // {
+  //   id: "ARCH_05",
+  //   codename: "DentalCare",
+  //   title: "Dental Clinic Management",
+  //   category: "DEV OPS/ SOFTWARE ENGINEER",
+  //   status: "PROTOTYPE",
+  //   isReal: true,
+  //   description:
+  //     "A dental clinic management system with patient records, appointment scheduling, billing, and inventory management. Built with a modular architecture for easy extension.",
+  //   stack: ["Next.js", "Node.js", "MongoDB", "Redis"],
+  //   color: "#ff7e5f",
+  //   metrics: { latency: "~10ms", uptime: "99.9%", scale: "Single-clinic" },
+  //   projectLink: "https://dental-management-system-ruby.vercel.app/",
+  // }
 ];
 
 const containerVariants = {
