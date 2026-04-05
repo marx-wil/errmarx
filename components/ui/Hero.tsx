@@ -82,71 +82,82 @@ export default function Hero() {
     <section
       id="hero"
       ref={sectionRef}
-      className="relative h-screen flex items-center justify-center overflow-hidden bg-surface-container-lowest"
+      className="relative h-screen overflow-hidden bg-surface-container-lowest"
     >
-      {/* 3D canvas layer */}
+      {/* 3D canvas — full background so particles span the whole hero */}
       <div className="absolute inset-0 z-0">
         <Scene />
       </div>
 
-      {/* Single vignette — keeps focus on center without stacking overlays */}
+      {/* Mobile vignette: radial, protects centered text */}
       <div
-        className="absolute inset-0 z-10 pointer-events-none"
+        className="absolute inset-0 z-10 pointer-events-none md:hidden"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(14,14,14,0.55) 0%, transparent 38%, transparent 62%, rgba(14,14,14,0.75) 100%), radial-gradient(ellipse 70% 55% at 50% 45%, transparent 35%, #0e0e0e 92%)",
+            "linear-gradient(to bottom, rgba(14,14,14,0.65) 0%, transparent 32%, transparent 62%, rgba(14,14,14,0.82) 100%), radial-gradient(ellipse 85% 65% at 50% 48%, transparent 28%, rgba(14,14,14,0.9) 88%)",
         }}
       />
 
-      {/* Hero text content */}
+      {/* Desktop split vignette: heavy on left (text), clear on right (network) */}
+      <div
+        className="absolute inset-0 z-10 pointer-events-none hidden md:block"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(14,14,14,0.52) 0%, transparent 28%, transparent 72%, rgba(14,14,14,0.72) 100%), linear-gradient(to right, rgba(14,14,14,0.97) 0%, rgba(14,14,14,0.82) 26%, rgba(14,14,14,0.18) 52%, transparent 68%)",
+        }}
+      />
+
+      {/* Hero content: flex row, text takes left half on desktop */}
       <motion.div
         style={{ opacity, y: translateY }}
-        className="relative z-20 text-center px-6 max-w-5xl mx-auto w-full pointer-events-none"
+        className="relative z-20 h-full flex items-center"
       >
-        {/* System badge */}
-        <div className="hero-badge inline-flex items-center gap-2 mb-8 px-3 py-1.5 border border-primary/20 bg-primary/5">
-          <span className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_#4ade80]" />
-          <span className="font-mono text-[10px] text-primary tracking-[0.25em] uppercase">
-            SYSTEM_ACTIVE // CIO @ STAPPL INC.
-          </span>
-        </div>
+        <div className="w-full md:w-[52%] px-6 md:pl-16 lg:pl-24 xl:pl-32 md:pr-6 text-center md:text-left pointer-events-none">
+          {/* System badge */}
+          <div className="hero-badge inline-flex items-center gap-2 mb-8 px-3 py-1.5 border border-primary/20 bg-primary/5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_#4ade80]" />
+            <span className="font-mono text-[10px] text-primary tracking-[0.25em] uppercase">
+              SYSTEM_ACTIVE // CIO @ STAPPL INC.
+            </span>
+          </div>
 
-        {/* Main name */}
-        <div className="hero-name mb-4 overflow-hidden">
-          <h1 className="text-7xl md:text-9xl font-black font-headline tracking-[-0.04em] leading-none text-glow">
-            ERR.MARX
-          </h1>
-        </div>
+          {/* Main name */}
+          <div className="hero-name mb-4 overflow-hidden">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black font-headline tracking-[-0.04em] leading-none text-glow">
+              ERR.MARX
+            </h1>
+          </div>
 
-        {/* Role */}
-        <div className="hero-title mb-6">
-          <p className="font-headline text-sm md:text-base tracking-[0.4em] uppercase text-on-surface-variant">
-            SYSTEMS ARCHITECT &nbsp;·&nbsp; RELIABILITY ENGINEER
+          {/* Role */}
+          <div className="hero-title mb-6">
+            <p className="font-headline text-xs md:text-sm tracking-[0.35em] uppercase text-on-surface-variant">
+              SYSTEMS ARCHITECT &nbsp;·&nbsp; RELIABILITY ENGINEER
+            </p>
+          </div>
+
+          {/* Description */}
+          <p className="hero-desc text-on-surface-variant font-body text-sm md:text-base max-w-lg mx-auto md:mx-0 mb-10 leading-relaxed opacity-80">
+            I design backend platforms with a focus on stability, scalability,
+            and failure recovery. Every system is a set of interacting
+            components with clear boundaries.
           </p>
-        </div>
 
-        {/* Description */}
-        <p className="hero-desc text-on-surface-variant font-body text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed opacity-80">
-          I design backend platforms with a focus on stability, scalability, and
-          failure recovery. Every system is a set of interacting components with
-          clear boundaries.
-        </p>
-
-        {/* CTAs */}
-        <div className="hero-ctas pointer-events-auto flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button
-            onClick={scrollToProjects}
-            className="group relative px-10 py-4 bg-surface-container-highest/40 glass-panel border border-primary/30 text-primary font-headline font-bold tracking-widest uppercase text-sm hover:border-primary transition-all duration-500 overflow-hidden"
-          >
-            <span className="relative z-10">VIEW_SYSTEMS</span>
-            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </button>
-          <button
-            onClick={scrollToContact}
-            className="px-10 py-4 text-on-surface font-headline tracking-widest uppercase text-sm border border-white/10 hover:border-primary/30 hover:text-primary transition-all duration-300"
-          >
-            OPEN_TERMINAL
-          </button>
+          {/* CTAs */}
+          <div className="hero-ctas pointer-events-auto flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+            <button
+              onClick={scrollToProjects}
+              className="group relative px-10 py-4 bg-surface-container-highest/40 glass-panel border border-primary/30 text-primary font-headline font-bold tracking-widest uppercase text-sm hover:border-primary transition-all duration-500 overflow-hidden"
+            >
+              <span className="relative z-10">VIEW_SYSTEMS</span>
+              <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </button>
+            <button
+              onClick={scrollToContact}
+              className="px-10 py-4 text-on-surface font-headline tracking-widest uppercase text-sm border border-white/10 hover:border-primary/30 hover:text-primary transition-all duration-300"
+            >
+              OPEN_TERMINAL
+            </button>
+          </div>
         </div>
       </motion.div>
 
@@ -169,6 +180,16 @@ export default function Hero() {
           style={{ writingMode: "vertical-rl" }}
         >
           BACKEND_SYSTEMS / RELIABILITY / DISTRIBUTED
+        </div>
+      </div>
+
+      {/* Right-side hint: drag to interact (desktop only) */}
+      <div className="absolute right-8 bottom-10 z-20 hidden md:flex flex-col items-center gap-2 opacity-30 pointer-events-none">
+        <div
+          className="text-[8px] font-mono tracking-[0.35em] text-primary uppercase"
+          style={{ writingMode: "vertical-rl" }}
+        >
+          DRAG · ZOOM · CLICK NODE
         </div>
       </div>
     </section>
