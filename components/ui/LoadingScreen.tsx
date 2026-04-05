@@ -49,7 +49,7 @@ export default function LoadingScreen() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.02 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-surface-container-lowest"
+          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-surface-container-lowest overflow-hidden"
         >
           {/* Noise overlay */}
           <div className="absolute inset-0 noise-texture pointer-events-none" />

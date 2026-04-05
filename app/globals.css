@@ -79,6 +79,7 @@
 html {
   scroll-behavior: auto;
   background: #131313;
+  overflow-x: hidden;
 }
 
 body {
