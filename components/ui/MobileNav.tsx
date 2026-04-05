@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const items = [
   {
@@ -43,6 +43,30 @@ const items = [
 
 export default function MobileNav() {
   const [active, setActive] = useState("INIT");
+
+  useEffect(() => {
+    const sectionIds = items.map((item) => item.href.replace("#", ""));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const label = items.find(
+              (n) => n.href === `#${entry.target.id}`
+            )?.label;
+            if (label) setActive(label);
+          }
+        });
+      },
+      { threshold: 0, rootMargin: "-40% 0px -40% 0px" }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleNav = (label: string, href: string) => {
     setActive(label);

@@ -33,7 +33,7 @@ export default function TopNav() {
           }
         });
       },
-      { threshold: 0.4 }
+      { threshold: 0, rootMargin: "-40% 0px -40% 0px" }
     );
 
     sections.forEach((id) => {
