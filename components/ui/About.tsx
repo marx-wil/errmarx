@@ -121,7 +121,7 @@ export default function About() {
                 &lt;identity_profile&gt;
               </div>
               <h3 className="text-2xl font-headline font-bold mb-3 text-primary">
-                Chief Information Officer | Systems Architec
+                Chief Information Officer | Systems Architect
               </h3>
               <p className="text-on-surface-variant leading-relaxed text-base mb-6">
                 I design backend platforms with a focus on stability,
