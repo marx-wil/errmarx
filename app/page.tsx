@@ -1,5 +1,6 @@
 import TopNav from "@/components/ui/TopNav";
 import MobileNav from "@/components/ui/MobileNav";
+import CustomCursor from "@/components/ui/CustomCursor";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import Hero from "@/components/ui/Hero";
 import About from "@/components/ui/About";
@@ -11,6 +12,8 @@ import Footer from "@/components/ui/Footer";
 export default function Home() {
   return (
     <>
+      <CustomCursor />
+
       {/* Loading screen — animates out once progress reaches 100% */}
       <LoadingScreen />
 

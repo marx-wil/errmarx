@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { label: "INIT", href: "#hero" },
@@ -13,7 +12,6 @@ const navLinks = [
 
 export default function TopNav() {
   const [active, setActive] = useState("INIT");
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -48,7 +46,6 @@ export default function TopNav() {
 
   const handleNav = (label: string, href: string) => {
     setActive(label);
-    setMobileOpen(false);
     const el = document.querySelector(href);
     el?.scrollIntoView({ behavior: "smooth" });
   };
@@ -96,59 +93,7 @@ export default function TopNav() {
           </button>
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden text-on-surface/60 hover:text-primary transition-colors"
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-label="Toggle menu"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            {mobileOpen ? (
-              <path d="M4 4l12 12M4 16L16 4" stroke="currentColor" strokeWidth="1.5" fill="none" />
-            ) : (
-              <>
-                <rect y="4" width="20" height="1.5" rx="1" />
-                <rect y="9.25" width="20" height="1.5" rx="1" />
-                <rect y="14.5" width="20" height="1.5" rx="1" />
-              </>
-            )}
-          </svg>
-        </button>
       </nav>
-
-      {/* Mobile dropdown */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-20 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-xl border-b border-white/5 md:hidden"
-          >
-            <div className="flex flex-col py-4">
-              {navLinks.map((link) => (
-                <button
-                  key={link.label}
-                  onClick={() => handleNav(link.label, link.href)}
-                  className={`px-8 py-4 font-headline text-xs tracking-widest uppercase text-left transition-colors ${
-                    active === link.label
-                      ? "text-primary bg-primary/5"
-                      : "text-on-surface/50 hover:text-primary"
-                  }`}
-                >
-                  {link.label}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 }

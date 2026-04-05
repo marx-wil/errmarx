@@ -55,9 +55,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} h-full`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="bg-background text-on-surface font-body antialiased overflow-x-hidden h-full">
+      <body className="bg-background text-on-surface font-body antialiased overflow-x-hidden">
         <LenisProvider>{children}</LenisProvider>
       </body>
     </html>
