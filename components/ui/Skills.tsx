@@ -12,7 +12,7 @@ const SkillNodes = dynamic(() => import("@/components/3d/SkillNodes"), {
 
 const SKILL_GRAPH_NODE_COUNT = 10;
 
-/* ─── Condensed stack (section 6) — tooling only ─────── */
+/*   Condensed stack (section 6) — tooling only   ─ */
 const stackChips = [
   "JavaScript",
   "TypeScript",
@@ -31,7 +31,7 @@ const stackChips = [
   "GCP",
 ];
 
-/* ─── Principles & domains (sections 1–5) ────────────── */
+/*   Principles & domains (sections 1–5)     ── */
 const principleDomains = [
   {
     name: "01_SYSTEM_DESIGN",
@@ -106,7 +106,7 @@ const principleDomains = [
   },
 ];
 
-/* ─── Fallback for reduced-motion ────────────────────── */
+/*   Fallback for reduced-motion        ─ */
 function StaticSkillFallback() {
   return (
     <div className="grid grid-cols-3 md:grid-cols-5 gap-2 p-6">

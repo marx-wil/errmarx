@@ -5,7 +5,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
 
-/* ─── Condensed stack: JS web (Node, Express, Next) + Expo + Flutter + infra ─ */
+/*   Condensed stack: JS web (Node, Express, Next) + Expo + Flutter + infra ─ */
 const SKILLS = [
   { name: "JavaScript", position: [0, 1.42, 0] as [number, number, number], color: "#a5e7ff" },
   { name: "TypeScript", position: [1.32, 0.52, 0.38] as [number, number, number], color: "#a5e7ff" },
@@ -34,7 +34,7 @@ const CONNECTIONS: [number, number][] = [
   [8, 9],
 ];
 
-/* ─── Single skill orb ───────────────────────────────── */
+/*   Single skill orb             */
 interface NodeProps {
   name: string;
   position: [number, number, number];
@@ -107,7 +107,7 @@ function SkillNode({ name, position, color }: NodeProps) {
   );
 }
 
-/* ─── Connection lines ───────────────────────────────── */
+/*   Connection lines             */
 function SkillConnections() {
   const positions = useMemo(() => {
     const pts: number[] = [];
@@ -130,7 +130,7 @@ function SkillConnections() {
   );
 }
 
-/* ─── Camera parallax (reused from hero pattern) ────── */
+/*   Camera parallax (reused from hero pattern)    */
 function CameraController() {
   const { camera, pointer } = useThree();
 
@@ -151,7 +151,7 @@ function CameraController() {
   return null;
 }
 
-/* ─── Root group (slow orbit) ────────────────────────── */
+/*   Root group (slow orbit)         ── */
 function OrbitingNodes() {
   const groupRef = useRef<THREE.Group>(null);
 
@@ -172,7 +172,7 @@ function OrbitingNodes() {
   );
 }
 
-/* ─── Export ─────────────────────────────────────────── */
+/*   Export               ─ */
 export default function SkillNodes() {
   return (
     <>

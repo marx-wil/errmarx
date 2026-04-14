@@ -8,30 +8,34 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Dynamic import prevents SSR issues with WebGL
 const Scene = dynamic(() => import("@/components/3d/Scene"), { ssr: false });
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
 
   const { scrollY } = useScroll();
-  // Fade the hero out as user scrolls down
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
   const translateY = useTransform(scrollY, [0, 500], [0, -60]);
 
-  // GSAP text entrance
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".hero-badge",
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: "power2.out" }
+        { opacity: 0, y: 16, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          delay: 0.2,
+          ease: "power2.out",
+        }
       );
       gsap.fromTo(
         ".hero-name",
-        { opacity: 0, y: 60, skewX: -5 },
+        { opacity: 0, y: 50, skewX: -3 },
         {
           opacity: 1,
           y: 0,
@@ -42,41 +46,43 @@ export default function Hero() {
         }
       );
       gsap.fromTo(
+        ".hero-rule",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.8, delay: 0.85, ease: "power2.inOut" }
+      );
+      gsap.fromTo(
         ".hero-title",
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.8, delay: 0.9, ease: "power2.out" }
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.95, ease: "power2.out" }
       );
       gsap.fromTo(
         ".hero-desc",
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, delay: 1.1, ease: "power2.out" }
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 1.15, ease: "power2.out" }
       );
       gsap.fromTo(
         ".hero-ctas",
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, delay: 1.3, ease: "power2.out" }
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.6, delay: 1.35, ease: "power2.out" }
       );
       gsap.fromTo(
         ".hero-scroll",
         { opacity: 0 },
-        { opacity: 0.5, duration: 0.6, delay: 1.8 }
+        { opacity: 0.5, duration: 0.6, delay: 1.9 }
       );
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-  const scrollToAbout = () => {
+  const scrollToAbout = () =>
     document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const scrollToContact = () => {
+  const scrollToContact = () =>
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const scrollToProjects = () => {
-    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToProjects = () =>
+    document
+      .getElementById("projects")
+      ?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <section
@@ -84,76 +90,79 @@ export default function Hero() {
       ref={sectionRef}
       className="relative h-screen overflow-hidden bg-surface-container-lowest"
     >
-      {/* 3D canvas — full background so particles span the whole hero */}
+      {/* 3D canvas — full background */}
       <div className="absolute inset-0 z-0">
         <Scene />
       </div>
 
-      {/* Mobile vignette: radial, protects centered text */}
+      {/* Lightweight vignette — text relies on its own glow/shadow for contrast;
+          background stays clearly visible */}
       <div
-        className="absolute inset-0 z-10 pointer-events-none md:hidden"
+        className="absolute inset-0 z-10 pointer-events-none"
         style={{
-          background:
-            "linear-gradient(to bottom, rgba(14,14,14,0.65) 0%, transparent 32%, transparent 62%, rgba(14,14,14,0.82) 100%), radial-gradient(ellipse 85% 65% at 50% 48%, transparent 28%, rgba(14,14,14,0.9) 88%)",
+          background: [
+            "radial-gradient(ellipse 48% 42% at 50% 48%, rgba(14,14,14,0.38) 0%, transparent 70%)",
+            "linear-gradient(to bottom, rgba(14,14,14,0.35) 0%, transparent 14%, transparent 86%, rgba(14,14,14,0.45) 100%)",
+          ].join(", "),
         }}
       />
 
-      {/* Desktop split vignette: heavy on left (text), clear on right (network) */}
-      <div
-        className="absolute inset-0 z-10 pointer-events-none hidden md:block"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(14,14,14,0.52) 0%, transparent 28%, transparent 72%, rgba(14,14,14,0.72) 100%), linear-gradient(to right, rgba(14,14,14,0.97) 0%, rgba(14,14,14,0.82) 26%, rgba(14,14,14,0.18) 52%, transparent 68%)",
-        }}
-      />
-
-      {/* Hero content: flex row, text takes left half on desktop */}
+      {/* ── Centered hero content         ── */}
       <motion.div
         style={{ opacity, y: translateY }}
-        className="relative z-20 h-full flex items-center"
+        className="relative z-20 h-full flex items-center justify-center"
       >
-        <div className="w-full md:w-[52%] px-6 md:pl-16 lg:pl-24 xl:pl-32 md:pr-6 text-center md:text-left pointer-events-none">
-          {/* System badge */}
-          <div className="hero-badge inline-flex items-center gap-2 mb-8 px-3 py-1.5 border border-primary/20 bg-primary/5">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_#4ade80]" />
-            <span className="font-mono text-[10px] text-primary tracking-[0.25em] uppercase">
+        <div className="max-w-2xl w-full px-6 text-center pointer-events-none">
+          {/* Status badge */}
+          <div className="hero-badge inline-flex items-center gap-2.5 mb-10 px-4 py-2 border border-primary/15 bg-surface-container-lowest/50 backdrop-blur-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400 shadow-[0_0_8px_#4ade80]" />
+            </span>
+            <span className="font-mono text-[10px] text-primary/90 tracking-[0.22em] uppercase">
               SYSTEM_ACTIVE // CIO @ STAPPL INC.
             </span>
           </div>
 
-          {/* Main name */}
-          <div className="hero-name mb-4 overflow-hidden">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black font-headline tracking-[-0.04em] leading-none text-glow">
-              ERR.MARX
+          {/* Name — dot is accent-colored for visual punch */}
+          <div className="hero-name mb-5">
+            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black font-headline tracking-[-0.04em] leading-none">
+              <span className="text-on-surface text-glow">ERR</span>
+              <span className="text-primary-container inline-block mx-0.5 md:mx-1.5 drop-shadow-[0_0_14px_rgba(0,210,255,0.6)]">
+                .
+              </span>
+              <span className="text-on-surface text-glow">MARX</span>
             </h1>
           </div>
 
+          {/* Gradient rule */}
+          <div className="hero-rule mx-auto mb-5 h-px w-40 bg-gradient-to-r from-transparent via-primary/50 to-transparent origin-center" />
+
           {/* Role */}
-          <div className="hero-title mb-6">
-            <p className="font-headline text-xs md:text-sm tracking-[0.35em] uppercase text-on-surface-variant">
-              SYSTEMS ARCHITECT &nbsp;·&nbsp; RELIABILITY ENGINEER
+          <div className="hero-title mb-8">
+            <p className="font-headline text-[11px] md:text-xs tracking-[0.32em] uppercase text-on-surface-variant/70">
+              SYSTEMS ARCHITECT &nbsp;&middot;&nbsp; RELIABILITY ENGINEER
             </p>
           </div>
 
           {/* Description */}
-          <p className="hero-desc text-on-surface-variant font-body text-sm md:text-base max-w-lg mx-auto md:mx-0 mb-10 leading-relaxed opacity-80">
+          <p className="hero-desc text-on-surface-variant/60 font-body text-sm md:text-base max-w-md mx-auto mb-12 leading-relaxed">
             I design backend platforms with a focus on stability, scalability,
-            and failure recovery. Every system is a set of interacting
-            components with clear boundaries.
+            and failure recovery. Every system is a set of interacting components
+            with clear boundaries.
           </p>
 
-          {/* CTAs */}
-          <div className="hero-ctas pointer-events-auto flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+          {/* CTA buttons */}
+          <div className="hero-ctas pointer-events-auto flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={scrollToProjects}
-              className="group relative px-10 py-4 bg-surface-container-highest/40 glass-panel border border-primary/30 text-primary font-headline font-bold tracking-widest uppercase text-sm hover:border-primary transition-all duration-500 overflow-hidden"
+              className="group relative px-10 py-3.5 border border-primary/30 bg-primary/[0.06] text-primary font-headline font-bold tracking-widest uppercase text-sm hover:bg-primary/[0.14] hover:border-primary/60 hover:shadow-[0_0_24px_rgba(0,210,255,0.12)] transition-all duration-500"
             >
               <span className="relative z-10">VIEW_SYSTEMS</span>
-              <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </button>
             <button
               onClick={scrollToContact}
-              className="px-10 py-4 text-on-surface font-headline tracking-widest uppercase text-sm border border-white/10 hover:border-primary/30 hover:text-primary transition-all duration-300"
+              className="px-10 py-3.5 text-on-surface/50 font-headline tracking-widest uppercase text-sm border border-white/[0.06] hover:border-primary/30 hover:text-primary transition-all duration-300"
             >
               OPEN_TERMINAL
             </button>
@@ -161,19 +170,7 @@ export default function Hero() {
         </div>
       </motion.div>
 
-      {/* Scroll indicator */}
-      <button
-        onClick={scrollToAbout}
-        className="hero-scroll absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 hover:opacity-100 transition-opacity cursor-pointer group"
-        aria-label="Scroll down"
-      >
-        <span className="font-mono text-[9px] tracking-[0.5em] uppercase text-on-surface-variant group-hover:text-primary transition-colors">
-          SCROLL TO ENTER
-        </span>
-        <div className="w-px h-12 bg-gradient-to-b from-primary/60 to-transparent" />
-      </button>
-
-      {/* Side decorative text */}
+      {/* Side decorative text — left */}
       <div className="absolute left-8 top-1/2 -translate-y-1/2 z-20 hidden xl:flex flex-col items-center gap-2 opacity-20 pointer-events-none">
         <div
           className="text-[9px] font-mono tracking-[0.4em] text-primary uppercase"
@@ -183,15 +180,27 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Right-side hint: drag to interact (desktop only) */}
+      {/* Side decorative text — right */}
       <div className="absolute right-8 bottom-10 z-20 hidden md:flex flex-col items-center gap-2 opacity-30 pointer-events-none">
         <div
           className="text-[8px] font-mono tracking-[0.35em] text-primary uppercase"
           style={{ writingMode: "vertical-rl" }}
         >
-          DRAG · ZOOM · CLICK NODE
+          SYS · OBSERVE · MONITOR
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <button
+        onClick={scrollToAbout}
+        className="hero-scroll absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 hover:opacity-100 transition-opacity cursor-pointer group"
+        aria-label="Scroll down"
+      >
+        <span className="font-mono text-[9px] tracking-[0.5em] uppercase text-on-surface-variant/50 group-hover:text-primary transition-colors">
+          SCROLL TO ENTER
+        </span>
+        <div className="w-px h-12 bg-gradient-to-b from-primary/50 to-transparent" />
+      </button>
     </section>
   );
 }

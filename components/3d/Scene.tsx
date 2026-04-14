@@ -5,7 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import { Preload } from "@react-three/drei";
 import HeroScene from "./HeroScene";
 
-/* ─── Capability detection ───────────────────────────── */
+/*   Capability detection          ── */
 function checkWebGL(): boolean {
   try {
     const canvas = document.createElement("canvas");
@@ -22,29 +22,27 @@ function checkReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-/* ─── Static fallback for low-perf / reduced-motion ─── */
+/*   Static fallback for low-perf / reduced-motion   */
 function StaticHeroBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* Gradient atmosphere */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 60% 40%, rgba(0,210,255,0.08) 0%, transparent 60%), " +
-            "radial-gradient(ellipse at 30% 70%, rgba(237,177,255,0.06) 0%, transparent 50%)",
+            "radial-gradient(ellipse at 50% 48%, rgba(0,210,255,0.07) 0%, transparent 55%), " +
+            "radial-gradient(ellipse at 40% 60%, rgba(237,177,255,0.05) 0%, transparent 50%)",
         }}
       />
-      {/* Grid */}
       <div className="absolute inset-0 digital-grid opacity-20" />
-      {/* Corner decorations */}
-      <div className="absolute top-20 right-20 w-32 h-32 border border-primary/10" />
-      <div className="absolute bottom-32 left-20 w-24 h-24 border border-secondary/10 rotate-45" />
+      <div className="absolute top-24 right-24 w-28 h-28 border border-primary/10 rotate-12" />
+      <div className="absolute bottom-28 left-24 w-20 h-20 border border-secondary/10 rotate-45" />
+      <div className="absolute top-1/3 left-16 w-16 h-16 border border-tertiary/8 -rotate-12" />
     </div>
   );
 }
 
-/* ─── Main export ────────────────────────────────────── */
+/*   Main export             ── */
 export default function Scene() {
   const [capable, setCapable] = useState<boolean | null>(null);
 
@@ -65,7 +63,7 @@ export default function Scene() {
 
   return (
     <Canvas
-      camera={{ position: [2.3, 0, 9.5], fov: 52 }}
+      camera={{ position: [0, 2, 10], fov: 50 }}
       gl={{
         antialias: true,
         alpha: true,

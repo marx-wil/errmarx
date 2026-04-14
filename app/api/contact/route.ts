@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as Partial<ContactPayload>;
 
-    // ── Validation ────────────────────────────────────────────────
+    // ── Validation                 
     if (!body.name || body.name.trim().length < 2) {
       return NextResponse.json(
         { error: "NAME_IDENTIFIER must be at least 2 characters." },
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Email dispatch ─────────────────────────────────────────────
+    // ── Email dispatch                
     // To wire up real email sending, install and configure one of:
     //   - Resend:     npm install resend
     //   - Nodemailer: npm install nodemailer
