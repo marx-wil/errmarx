@@ -74,21 +74,35 @@ const projects = [
     color: "#ff7e5f",
     metrics: { latency: "~25ms", uptime: "99.9%", scale: "Community-wide" },
     // projectLink: "https://sentri-disaster-response.vercel.app/",
+  },
+  {
+    id: "ARCH_07",
+    codename: "SAN SASAKAY",
+    title: "Real-time Filipino Transit Intelligence",
+    category: "MOBILE / CIVIC_TECH",
+    status: "MVP",
+    isReal: true,
+    description:
+      "A crowdsourced transit platform mapping Metro Manila's informal network — jeepneys, UV Express, tricycles, ferries. One-tap commuter reports are corroborated, weighted, and decayed into the country's first live ground-truth dataset, with anonymized flow data licensed to MMDA, DOTr, and LGUs.",
+    stack: ["React Native", "Fastify", "PostgreSQL/PostGIS", "WebSockets"],
+    color: "#f5a623",
+    metrics: { latency: "<60s p95", uptime: "99.5%", scale: "Metro Manila" },
+    projectLink: "https://sansasakay.com",
+  },
+  {
+    id: "ARCH_08",
+    codename: "PROXIMA",
+    title: "Peer-to-Peer Offline Sync SDK",
+    category: "SDK / OFFLINE_FIRST",
+    status: "MVP",
+    isReal: true,
+    description:
+      "A platform-agnostic SDK for offline-first peer-to-peer data sync. Devices reconcile directly over LAN, BLE, or Wi-Fi Direct when offline, then settle with an authoritative server on reconnect. Pure-TypeScript core with pluggable transport adapters — vector clocks for causality, HMAC-signed entries, and strict tenant isolation.",
+    stack: ["TypeScript", "Node.js", "Vector Clocks", "UDP+TCP"],
+    color: "#818cf8",
+    metrics: { discovery: "<100ms", coverage: "100% core", runtime: "Cross-platform" },
+    projectLink: "https://proxima-sync.vercel.app/",
   }
-  // {
-  //   id: "ARCH_05",
-  //   codename: "DentalCare",
-  //   title: "Dental Clinic Management",
-  //   category: "DEV OPS/ SOFTWARE ENGINEER",
-  //   status: "PROTOTYPE",
-  //   isReal: true,
-  //   description:
-  //     "A dental clinic management system with patient records, appointment scheduling, billing, and inventory management. Built with a modular architecture for easy extension.",
-  //   stack: ["Next.js", "Node.js", "MongoDB", "Redis"],
-  //   color: "#ff7e5f",
-  //   metrics: { latency: "~10ms", uptime: "99.9%", scale: "Single-clinic" },
-  //   projectLink: "https://dental-management-system-ruby.vercel.app/",
-  // }
 ];
 
 const containerVariants = {
@@ -104,9 +118,11 @@ const cardVariants = {
 function ProjectCard({
   project,
   index,
+  colClassName = "",
 }: {
   project: (typeof projects)[0];
   index: number;
+  colClassName?: string;
 }) {
   const [hovered, setHovered] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -118,7 +134,7 @@ function ProjectCard({
   return (
     <motion.div
       variants={cardVariants}
-      className="relative group"
+      className={`relative group ${colClassName}`}
       style={{ marginTop: staggerOffset }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -330,11 +346,33 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        {/* Project grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} />
-          ))}
+        {/* Project grid — xl uses a 6-col scaffold so orphan rows can rebalance:
+            full rows: each card spans 2 of 6 (3 per row, same as before)
+            1 orphan : centered (col-span-2 col-start-3)
+            2 orphans: each spans 3 of 6 (half-row each, evenly distributed) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-8">
+          {projects.map((project, i) => {
+            const xlCols = 3;
+            const orphanCount = projects.length % xlCols;
+            const lastRowStart = projects.length - orphanCount;
+            const isOrphanRow = orphanCount > 0 && i >= lastRowStart;
+
+            let xlSpan = "xl:col-span-2";
+            if (isOrphanRow && orphanCount === 1) {
+              xlSpan = "xl:col-span-2 xl:col-start-3";
+            } else if (isOrphanRow && orphanCount === 2) {
+              xlSpan = "xl:col-span-3";
+            }
+
+            return (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={i}
+                colClassName={xlSpan}
+              />
+            );
+          })}
         </div>
 
         {/* Terminal logger */}

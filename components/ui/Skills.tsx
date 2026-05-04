@@ -290,10 +290,10 @@ export default function Skills() {
               transition={{ delay: 0.32, duration: 0.55 }}
               className="glass-panel p-6 border border-secondary/10"
             >
-              <div className="font-mono text-[9px] text-secondary/60 uppercase tracking-widest mb-3">
+              <div className="font-mono text-xs text-secondary/70 uppercase tracking-widest mb-3">
                 PRINCIPLES_AT_A_GLANCE
               </div>
-              <p className="text-[11px] text-on-surface-variant/75 leading-relaxed">
+              <p className="text-sm text-on-surface-variant/75 leading-relaxed">
                 I build systems by principles, not by tools. My work is guided by how systems should behave—resilient, observable, scalable, and humane—rather than what stack happens to be popular. System design, engineering philosophy, backend platforms, DevOps, and data systems all follow this foundation. Tooling is chosen to serve these principles, never to define them.
               </p>
             </motion.div>
