@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useMemo } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -132,9 +132,9 @@ function SkillConnections() {
 
 /*   Camera parallax (reused from hero pattern)    */
 function CameraController() {
-  const { camera, pointer } = useThree();
-
-  useFrame(() => {
+  // Read camera + pointer from useFrame's state callback rather than useThree(),
+  // so we're not mutating a hook return value (forbidden by react-hooks/immutability).
+  useFrame(({ camera, pointer }) => {
     camera.position.x = THREE.MathUtils.lerp(
       camera.position.x,
       pointer.x * 0.6,

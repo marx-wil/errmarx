@@ -120,6 +120,19 @@ function TechGrid() {
   );
 }
 
+// Deterministic PRNG so particle field is render-stable and pure.
+// Math.random() can't be called during render under the strict React rules.
+function mulberry32(seed: number) {
+  let s = seed >>> 0;
+  return () => {
+    s = (s + 0x6d2b79f5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 /* ─── Ambient particle field ─────────────────────────── */
 function AmbientParticles() {
   const ref = useRef<THREE.Points>(null);
@@ -134,11 +147,12 @@ function AmbientParticles() {
       new THREE.Color("#a5e7ff"),
       new THREE.Color("#ffffff"),
     ];
+    const rand = mulberry32(0xb16b00b5);
     for (let i = 0; i < COUNT; i++) {
-      p[i * 3] = (Math.random() - 0.5) * 30;
-      p[i * 3 + 1] = (Math.random() - 0.5) * 18;
-      p[i * 3 + 2] = (Math.random() - 0.5) * 16 - 4;
-      const co = pal[Math.floor(Math.random() * pal.length)];
+      p[i * 3] = (rand() - 0.5) * 30;
+      p[i * 3 + 1] = (rand() - 0.5) * 18;
+      p[i * 3 + 2] = (rand() - 0.5) * 16 - 4;
+      const co = pal[Math.floor(rand() * pal.length)];
       c[i * 3] = co.r;
       c[i * 3 + 1] = co.g;
       c[i * 3 + 2] = co.b;

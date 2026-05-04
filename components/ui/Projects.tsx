@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { code } from "framer-motion/client";
 
 const projects = [
   {

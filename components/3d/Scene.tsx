@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Preload } from "@react-three/drei";
 import HeroScene from "./HeroScene";
@@ -20,6 +20,21 @@ function checkWebGL(): boolean {
 
 function checkReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+// Subscribe to reduced-motion changes; recompute capability on the fly.
+function subscribeReducedMotion(callback: () => void) {
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", callback);
+  return () => mq.removeEventListener("change", callback);
+}
+
+function getCapableSnapshot(): boolean {
+  return checkWebGL() && !checkReducedMotion();
+}
+
+function getCapableServerSnapshot(): null {
+  return null;
 }
 
 /*   Static fallback for low-perf / reduced-motion   */
@@ -44,16 +59,11 @@ function StaticHeroBackground() {
 
 /*   Main export             ── */
 export default function Scene() {
-  const [capable, setCapable] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const hasWebGL = checkWebGL();
-    const wantsReduced = checkReducedMotion();
-    setCapable(hasWebGL && !wantsReduced);
-    return () => {
-      document.body.style.cursor = "";
-    };
-  }, []);
+  const capable = useSyncExternalStore(
+    subscribeReducedMotion,
+    getCapableSnapshot,
+    getCapableServerSnapshot,
+  );
 
   // SSR / detection pending — render nothing until client-side check
   if (capable === null) return null;
