@@ -1,7 +1,18 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import {
+  Fraunces,
+  Inter,
+  JetBrains_Mono,
+  Space_Grotesk,
+} from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/providers/LenisProvider";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -23,6 +34,16 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500"],
   display: "swap",
 });
+
+const themeScript = `
+  try {
+    const savedTheme = localStorage.getItem("portfolio-theme");
+    document.documentElement.dataset.theme =
+      savedTheme === "dark" ? "dark" : "light";
+  } catch {
+    document.documentElement.dataset.theme = "light";
+  }
+`;
 
 export const metadata: Metadata = {
   title: "Wilmarx - Systems Engineer",
@@ -55,9 +76,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+      className={`${fraunces.variable} ${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="bg-background text-on-surface font-body antialiased overflow-x-hidden">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="bg-background text-foreground font-body antialiased overflow-x-hidden">
         <LenisProvider>{children}</LenisProvider>
       </body>
     </html>

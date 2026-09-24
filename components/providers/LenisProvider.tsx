@@ -13,29 +13,39 @@ export default function LenisProvider({
   children: React.ReactNode;
 }) {
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.05,
+      easing: easeOutQuart,
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
+      anchors: {
+        duration: 1.15,
+        easing: easeOutQuart,
+      },
+      stopInertiaOnNavigate: true,
     });
 
     // Sync ScrollTrigger with Lenis
-    lenis.on("scroll", ScrollTrigger.update);
+    const unsubscribe = lenis.on("scroll", ScrollTrigger.update);
 
-    gsap.ticker.add((time: number) => {
+    const updateLenis = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(updateLenis);
 
     // Prevent GSAP ticker lag smoothing from causing jitter
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      unsubscribe();
+      gsap.ticker.remove(updateLenis);
       lenis.destroy();
-      gsap.ticker.remove((time: number) => {
-        lenis.raf(time * 1000);
-      });
     };
   }, []);
 
