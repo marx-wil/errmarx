@@ -26,12 +26,11 @@ export default function Hero() {
       className="relative flex min-h-screen flex-col overflow-hidden border-b border-border bg-background px-page"
     >
       <header className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between border-b border-border">
-        <a href="#hero" aria-label="Stappl, home" className="inline-flex items-center">
-          <img
-            src="/stappl-logo.png"
-            alt="Stappl"
-            className="h-8 w-auto"
-          />
+        <a
+          href="#hero"
+          className="font-headline text-xl font-semibold tracking-[-0.02em] text-foreground"
+        >
+          Wilmarx
         </a>
 
         <nav aria-label="Primary navigation" className="hidden md:block">
