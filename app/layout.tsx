@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Fraunces,
   Inter,
@@ -7,6 +7,16 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/providers/LenisProvider";
+import { siteJsonLd } from "@/lib/json-ld";
+import {
+  keywords,
+  personName,
+  siteDescription,
+  siteLocale,
+  siteName,
+  siteTitle,
+  siteUrl,
+} from "@/lib/site";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -45,26 +55,59 @@ const themeScript = `
   }
 `;
 
-export const metadata: Metadata = {
-  title: "Wilmarx - Systems Engineer",
-  description:
-    "Backend platforms engineered for stability, scalability, and fault tolerance. Chief Information Officer at Stappl Inc.",
-  keywords: [
-    "systems engineer",
-    "backend architect",
-    "reliability engineering",
-    "distributed systems",
-    "Node.js",
-    "TypeScript",
-    "PostgreSQL",
-    "Docker",
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f5f0" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0d10" },
   ],
-  authors: [{ name: "Wilmarx", url: "https://github.com/marx-wil" }],
+  colorScheme: "light dark",
+};
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteTitle,
+    template: "%s — Wilmarx",
+  },
+  description: siteDescription,
+  keywords: [...keywords],
+  applicationName: siteName,
+  authors: [{ name: personName, url: siteUrl }],
+  creator: personName,
+  publisher: personName,
+  category: "technology",
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
-    title: "Wilmarx - Systems Engineer",
-    description:
-      "Backend platforms engineered for stability, scalability, and fault tolerance.",
     type: "website",
+    locale: siteLocale,
+    url: "/",
+    siteName,
+    title: siteTitle,
+    description: siteDescription,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
   },
 };
 
@@ -83,6 +126,12 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="bg-background text-foreground font-body antialiased overflow-x-hidden">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(siteJsonLd()).replace(/</g, "\\u003c"),
+          }}
+        />
         <LenisProvider>{children}</LenisProvider>
       </body>
     </html>

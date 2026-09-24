@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import About from "@/components/ui/About";
 import Contact from "@/components/ui/Contact";
 import CustomCursor from "@/components/ui/CustomCursor";
@@ -9,9 +10,21 @@ import Projects from "@/components/ui/Projects";
 import Skills from "@/components/ui/Skills";
 import TopNav from "@/components/ui/TopNav";
 
-export const metadata = {
-  title: "Wilmarx — Interface Lab",
+export const metadata: Metadata = {
+  title: "Interface Lab",
   description: "The original interactive portfolio experience.",
+  alternates: {
+    canonical: "/lab",
+  },
+  openGraph: {
+    title: "Interface Lab — Wilmarx",
+    description: "The original interactive portfolio experience.",
+    url: "/lab",
+  },
+  twitter: {
+    title: "Interface Lab — Wilmarx",
+    description: "The original interactive portfolio experience.",
+  },
 };
 
 export default function LabPage() {

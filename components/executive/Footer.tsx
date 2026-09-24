@@ -8,9 +8,12 @@ export default function Footer() {
   return (
     <footer className="bg-background px-page py-8">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
-        <p>
-          <span className="text-foreground">Wilmarx</span>
-          <span aria-hidden="true"> · </span>© {new Date().getFullYear()}
+        <p className="flex items-center gap-3">
+          <img src="/stappl-logo.png" alt="Stappl" className="h-5 w-auto" />
+          <span>
+            <span className="text-foreground">Wilmarx</span>
+            <span aria-hidden="true"> · </span>© {new Date().getFullYear()}
+          </span>
         </p>
 
         <nav aria-label="Footer navigation">
